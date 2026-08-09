@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { memo, useCallback, useState, type ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
   LayoutGrid,
@@ -30,7 +30,7 @@ const nav = [
   { label: "Settings", to: "/dashboard/settings", icon: Settings },
 ] as const;
 
-function NavList({ onNavigate }: { onNavigate?: () => void }) {
+const NavList = memo(function NavList({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   return (
     <ul className="grid gap-1">
@@ -42,6 +42,7 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
             <Link
               to={item.to}
               onClick={onNavigate}
+              preload="intent"
               aria-current={active ? "page" : undefined}
               className={cn(
                 "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors",
@@ -58,10 +59,11 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
       })}
     </ul>
   );
-}
+});
 
 export function DashboardShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
+  const closeMenu = useCallback(() => setOpen(false), []);
 
   return (
     <div className="flex min-h-dvh w-full bg-background">
@@ -96,7 +98,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
                   <SheetTitle className="sr-only">Dashboard navigation</SheetTitle>
                   <Logo />
                   <nav aria-label="Dashboard" className="mt-8">
-                    <NavList onNavigate={() => setOpen(false)} />
+                    <NavList onNavigate={closeMenu} />
                   </nav>
                 </SheetContent>
               </Sheet>
