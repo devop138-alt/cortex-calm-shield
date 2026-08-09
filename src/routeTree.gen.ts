@@ -10,33 +10,122 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as SignInRouteImport } from './routes/sign-in'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
+import { Route as DashboardLinkCheckerRouteImport } from './routes/dashboard.link-checker'
+import { Route as DashboardMessageCheckerRouteImport } from './routes/dashboard.message-checker'
+import { Route as DashboardWebsiteScannerRouteImport } from './routes/dashboard.website-scanner'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignInRoute = SignInRouteImport.update({
+  id: '/sign-in',
+  path: '/sign-in',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardLinkCheckerRoute = DashboardLinkCheckerRouteImport.update({
+  id: '/link-checker',
+  path: '/link-checker',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardMessageCheckerRoute = DashboardMessageCheckerRouteImport.update({
+  id: '/message-checker',
+  path: '/message-checker',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardWebsiteScannerRoute = DashboardWebsiteScannerRouteImport.update({
+  id: '/website-scanner',
+  path: '/website-scanner',
+  getParentRoute: () => DashboardRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/dashboard': typeof DashboardRouteWithChildren
+  '/sign-in': typeof SignInRoute
+  '/dashboard/link-checker': typeof DashboardLinkCheckerRoute
+  '/dashboard/message-checker': typeof DashboardMessageCheckerRoute
+  '/dashboard/website-scanner': typeof DashboardWebsiteScannerRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/sign-in': typeof SignInRoute
+  '/dashboard/link-checker': typeof DashboardLinkCheckerRoute
+  '/dashboard/message-checker': typeof DashboardMessageCheckerRoute
+  '/dashboard/website-scanner': typeof DashboardWebsiteScannerRoute
+  '/dashboard': typeof DashboardIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/dashboard': typeof DashboardRouteWithChildren
+  '/sign-in': typeof SignInRoute
+  '/dashboard/link-checker': typeof DashboardLinkCheckerRoute
+  '/dashboard/message-checker': typeof DashboardMessageCheckerRoute
+  '/dashboard/website-scanner': typeof DashboardWebsiteScannerRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/dashboard'
+    | '/sign-in'
+    | '/dashboard/link-checker'
+    | '/dashboard/message-checker'
+    | '/dashboard/website-scanner'
+    | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/sign-in'
+    | '/dashboard/link-checker'
+    | '/dashboard/message-checker'
+    | '/dashboard/website-scanner'
+    | '/dashboard'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/dashboard'
+    | '/sign-in'
+    | '/dashboard/link-checker'
+    | '/dashboard/message-checker'
+    | '/dashboard/website-scanner'
+    | '/dashboard/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  DashboardRoute: typeof DashboardRouteWithChildren
+  SignInRoute: typeof SignInRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,22 +137,82 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sign-in': {
+      id: '/sign-in'
+      path: '/sign-in'
+      fullPath: '/sign-in'
+      preLoaderRoute: typeof SignInRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/link-checker': {
+      id: '/dashboard/link-checker'
+      path: '/link-checker'
+      fullPath: '/dashboard/link-checker'
+      preLoaderRoute: typeof DashboardLinkCheckerRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/message-checker': {
+      id: '/dashboard/message-checker'
+      path: '/message-checker'
+      fullPath: '/dashboard/message-checker'
+      preLoaderRoute: typeof DashboardMessageCheckerRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/website-scanner': {
+      id: '/dashboard/website-scanner'
+      path: '/website-scanner'
+      fullPath: '/dashboard/website-scanner'
+      preLoaderRoute: typeof DashboardWebsiteScannerRouteImport
+      parentRoute: typeof DashboardRoute
+    }
   }
 }
 
+interface DashboardRouteChildren {
+  DashboardLinkCheckerRoute: typeof DashboardLinkCheckerRoute
+  DashboardMessageCheckerRoute: typeof DashboardMessageCheckerRoute
+  DashboardWebsiteScannerRoute: typeof DashboardWebsiteScannerRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardLinkCheckerRoute: DashboardLinkCheckerRoute,
+  DashboardMessageCheckerRoute: DashboardMessageCheckerRoute,
+  DashboardWebsiteScannerRoute: DashboardWebsiteScannerRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  DashboardRoute: DashboardRouteWithChildren,
+  SignInRoute: SignInRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
