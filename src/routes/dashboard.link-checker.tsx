@@ -13,6 +13,13 @@ import {
   type ToolState,
 } from "@/components/common/StatePreview";
 
+interface AnalysisResult {
+  url: string;
+  level: "low" | "medium" | "high";
+  signals: string[];
+  recommendation: string;
+}
+
 export const Route = createFileRoute("/dashboard/link-checker")({
   head: () => ({
     meta: [
@@ -34,8 +41,34 @@ export const Route = createFileRoute("/dashboard/link-checker")({
 function LinkChecker() {
   const [url, setUrl] = useState("");
   const [state, setState] = useState<ToolState>("empty");
-  const analyze = () => {
-    setState("error");
+  const [result, setResult] = useState<AnalysisResult | null>(null);
+
+  const analyze = async () => {
+    if (!url.trim()) return;
+
+    setState("loading");
+    setResult(null);
+
+    try {
+      const response = await fetch("http://localhost:5000/api/check-link", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ url: url.trim() }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Server returned ${response.status}`);
+      }
+
+      const data: AnalysisResult = await response.json();
+      setResult(data);
+      setState("results");
+    } catch (error) {
+      console.error("Failed to analyze link:", error);
+      setState("error");
+    }
   };
 
   return (
@@ -60,7 +93,6 @@ function LinkChecker() {
             <Button
               className="h-12 sm:w-40"
               onClick={analyze}
-              disabled={!url.trim() || state === "loading"}
             >
               {state === "loading" ? (
                 <>
