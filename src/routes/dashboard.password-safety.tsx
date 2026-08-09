@@ -46,7 +46,7 @@ function PasswordSafety() {
   const [visible, setVisible] = useState(false);
 
   const passed = useMemo(() => rules.filter((r) => r.test(value)).length, [value]);
-  const level = levels[value ? passed : 0];
+  const level = levels[value ? passed : 0] ?? levels[0]!;
   const percent = value ? (passed / rules.length) * 100 : 0;
 
   return (
