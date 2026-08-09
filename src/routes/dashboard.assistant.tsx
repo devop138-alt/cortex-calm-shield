@@ -46,7 +46,6 @@ const suggestions = [
 function Assistant() {
   const [messages, setMessages] = useState<Msg[]>(previewThread);
   const [input, setInput] = useState("");
-  const [pending, setPending] = useState(false);
   const [copied, setCopied] = useState<string | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -54,28 +53,24 @@ function Assistant() {
 
   const send = (text: string) => {
     const value = text.trim();
-    if (!value || pending) return;
+    if (!value) return;
     setMessages((m) => [...m, { id: crypto.randomUUID(), role: "user", text: value }]);
     setInput("");
-    setPending(true);
-    if (timer.current) clearTimeout(timer.current);
-    timer.current = setTimeout(() => {
-      setPending(false);
-      setMessages((m) => [
-        ...m,
-        {
-          id: crypto.randomUUID(),
-          role: "assistant",
-          text: "The assistant isn't connected yet, so I can't answer this question. Once the CyberCortex service is connected, answers will appear here.",
-        },
-      ]);
-    }, 1200);
+    setMessages((m) => [
+      ...m,
+      {
+        id: crypto.randomUUID(),
+        role: "assistant",
+        text: "The assistant isn't connected yet, so I can't answer this question. Once the CyberCortex service is connected, answers will appear here.",
+      },
+    ]);
   };
 
   const copy = async (msg: Msg) => {
     await navigator.clipboard.writeText(msg.text);
     setCopied(msg.id);
-    setTimeout(() => setCopied(null), 1500);
+    if (timer.current) clearTimeout(timer.current);
+    timer.current = setTimeout(() => setCopied(null), 1500);
   };
 
   return (
@@ -135,21 +130,6 @@ function Assistant() {
               </div>
             ),
           )}
-          {pending && (
-            <div className="flex items-center gap-3" role="status" aria-live="polite">
-              <Logo showWordmark={false} className="shrink-0" />
-              <span className="flex gap-1" aria-hidden="true">
-                {[0, 1, 2].map((i) => (
-                  <span
-                    key={i}
-                    className="size-1.5 animate-pulse rounded-full bg-muted-foreground"
-                    style={{ animationDelay: `${i * 160}ms` }}
-                  />
-                ))}
-              </span>
-              <span className="text-sm text-muted-foreground">Thinking...</span>
-            </div>
-          )}
         </div>
 
         <div className="border-t border-border p-4 sm:p-5">
@@ -194,7 +174,7 @@ function Assistant() {
               type="submit"
               size="icon"
               className="min-h-11 min-w-11"
-              disabled={!input.trim() || pending}
+              disabled={!input.trim()}
               aria-label="Send message"
             >
               <Send className="size-4" />

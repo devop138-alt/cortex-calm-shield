@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Loader2, MessageSquareWarning } from "lucide-react";
 import { PageHeading } from "@/components/dashboard/DashboardShell";
@@ -37,14 +37,8 @@ const MAX = 2000;
 function MessageChecker() {
   const [text, setText] = useState("");
   const [state, setState] = useState<ToolState>("empty");
-  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => () => { if (timer.current) clearTimeout(timer.current); }, []);
-
   const analyze = () => {
-    setState("loading");
-    if (timer.current) clearTimeout(timer.current);
-    timer.current = setTimeout(() => setState("error"), 1400);
+    setState("error");
   };
 
   return (
