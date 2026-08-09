@@ -15,9 +15,12 @@ import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as DashboardAssistantRouteImport } from './routes/dashboard.assistant'
+import { Route as DashboardHistoryRouteImport } from './routes/dashboard.history'
 import { Route as DashboardLinkCheckerRouteImport } from './routes/dashboard.link-checker'
 import { Route as DashboardMessageCheckerRouteImport } from './routes/dashboard.message-checker'
 import { Route as DashboardPasswordSafetyRouteImport } from './routes/dashboard.password-safety'
+import { Route as DashboardReportsRouteImport } from './routes/dashboard.reports'
+import { Route as DashboardSettingsRouteImport } from './routes/dashboard.settings'
 import { Route as DashboardWebsiteScannerRouteImport } from './routes/dashboard.website-scanner'
 
 const IndexRoute = IndexRouteImport.update({
@@ -50,6 +53,11 @@ const DashboardAssistantRoute = DashboardAssistantRouteImport.update({
   path: '/assistant',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardHistoryRoute = DashboardHistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardLinkCheckerRoute = DashboardLinkCheckerRouteImport.update({
   id: '/link-checker',
   path: '/link-checker',
@@ -65,6 +73,16 @@ const DashboardPasswordSafetyRoute = DashboardPasswordSafetyRouteImport.update({
   path: '/password-safety',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardReportsRoute = DashboardReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardSettingsRoute = DashboardSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardWebsiteScannerRoute = DashboardWebsiteScannerRouteImport.update({
   id: '/website-scanner',
   path: '/website-scanner',
@@ -77,9 +95,12 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRouteWithChildren
   '/sign-in': typeof SignInRoute
   '/dashboard/assistant': typeof DashboardAssistantRoute
+  '/dashboard/history': typeof DashboardHistoryRoute
   '/dashboard/link-checker': typeof DashboardLinkCheckerRoute
   '/dashboard/message-checker': typeof DashboardMessageCheckerRoute
   '/dashboard/password-safety': typeof DashboardPasswordSafetyRoute
+  '/dashboard/reports': typeof DashboardReportsRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
   '/dashboard/website-scanner': typeof DashboardWebsiteScannerRoute
   '/dashboard/': typeof DashboardIndexRoute
 }
@@ -88,9 +109,12 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/sign-in': typeof SignInRoute
   '/dashboard/assistant': typeof DashboardAssistantRoute
+  '/dashboard/history': typeof DashboardHistoryRoute
   '/dashboard/link-checker': typeof DashboardLinkCheckerRoute
   '/dashboard/message-checker': typeof DashboardMessageCheckerRoute
   '/dashboard/password-safety': typeof DashboardPasswordSafetyRoute
+  '/dashboard/reports': typeof DashboardReportsRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
   '/dashboard/website-scanner': typeof DashboardWebsiteScannerRoute
   '/dashboard': typeof DashboardIndexRoute
 }
@@ -101,9 +125,12 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRouteWithChildren
   '/sign-in': typeof SignInRoute
   '/dashboard/assistant': typeof DashboardAssistantRoute
+  '/dashboard/history': typeof DashboardHistoryRoute
   '/dashboard/link-checker': typeof DashboardLinkCheckerRoute
   '/dashboard/message-checker': typeof DashboardMessageCheckerRoute
   '/dashboard/password-safety': typeof DashboardPasswordSafetyRoute
+  '/dashboard/reports': typeof DashboardReportsRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
   '/dashboard/website-scanner': typeof DashboardWebsiteScannerRoute
   '/dashboard/': typeof DashboardIndexRoute
 }
@@ -115,9 +142,12 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/sign-in'
     | '/dashboard/assistant'
+    | '/dashboard/history'
     | '/dashboard/link-checker'
     | '/dashboard/message-checker'
     | '/dashboard/password-safety'
+    | '/dashboard/reports'
+    | '/dashboard/settings'
     | '/dashboard/website-scanner'
     | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
@@ -126,9 +156,12 @@ export interface FileRouteTypes {
     | '/about'
     | '/sign-in'
     | '/dashboard/assistant'
+    | '/dashboard/history'
     | '/dashboard/link-checker'
     | '/dashboard/message-checker'
     | '/dashboard/password-safety'
+    | '/dashboard/reports'
+    | '/dashboard/settings'
     | '/dashboard/website-scanner'
     | '/dashboard'
   id:
@@ -138,9 +171,12 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/sign-in'
     | '/dashboard/assistant'
+    | '/dashboard/history'
     | '/dashboard/link-checker'
     | '/dashboard/message-checker'
     | '/dashboard/password-safety'
+    | '/dashboard/reports'
+    | '/dashboard/settings'
     | '/dashboard/website-scanner'
     | '/dashboard/'
   fileRoutesById: FileRoutesById
@@ -196,6 +232,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardAssistantRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/history': {
+      id: '/dashboard/history'
+      path: '/history'
+      fullPath: '/dashboard/history'
+      preLoaderRoute: typeof DashboardHistoryRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/link-checker': {
       id: '/dashboard/link-checker'
       path: '/link-checker'
@@ -217,6 +260,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardPasswordSafetyRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/reports': {
+      id: '/dashboard/reports'
+      path: '/reports'
+      fullPath: '/dashboard/reports'
+      preLoaderRoute: typeof DashboardReportsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/settings': {
+      id: '/dashboard/settings'
+      path: '/settings'
+      fullPath: '/dashboard/settings'
+      preLoaderRoute: typeof DashboardSettingsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/website-scanner': {
       id: '/dashboard/website-scanner'
       path: '/website-scanner'
@@ -229,18 +286,24 @@ declare module '@tanstack/react-router' {
 
 interface DashboardRouteChildren {
   DashboardAssistantRoute: typeof DashboardAssistantRoute
+  DashboardHistoryRoute: typeof DashboardHistoryRoute
   DashboardLinkCheckerRoute: typeof DashboardLinkCheckerRoute
   DashboardMessageCheckerRoute: typeof DashboardMessageCheckerRoute
   DashboardPasswordSafetyRoute: typeof DashboardPasswordSafetyRoute
+  DashboardReportsRoute: typeof DashboardReportsRoute
+  DashboardSettingsRoute: typeof DashboardSettingsRoute
   DashboardWebsiteScannerRoute: typeof DashboardWebsiteScannerRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardAssistantRoute: DashboardAssistantRoute,
+  DashboardHistoryRoute: DashboardHistoryRoute,
   DashboardLinkCheckerRoute: DashboardLinkCheckerRoute,
   DashboardMessageCheckerRoute: DashboardMessageCheckerRoute,
   DashboardPasswordSafetyRoute: DashboardPasswordSafetyRoute,
+  DashboardReportsRoute: DashboardReportsRoute,
+  DashboardSettingsRoute: DashboardSettingsRoute,
   DashboardWebsiteScannerRoute: DashboardWebsiteScannerRoute,
   DashboardIndexRoute: DashboardIndexRoute,
 }
