@@ -46,22 +46,10 @@ function WebsiteScanner() {
   const [url, setUrl] = useState("");
   const [state, setState] = useState<ToolState>("empty");
   const [stage, setStage] = useState(0);
-  const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
-
-  const clearTimers = () => {
-    timers.current.forEach(clearTimeout);
-    timers.current = [];
-  };
-  useEffect(() => clearTimers, []);
 
   const scan = () => {
-    clearTimers();
     setStage(0);
-    setState("loading");
-    stages.forEach((_, i) => {
-      timers.current.push(setTimeout(() => setStage(i), i * 700));
-    });
-    timers.current.push(setTimeout(() => setState("error"), stages.length * 700));
+    setState("error");
   };
 
   return (

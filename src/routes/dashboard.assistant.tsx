@@ -57,19 +57,14 @@ function Assistant() {
     if (!value || pending) return;
     setMessages((m) => [...m, { id: crypto.randomUUID(), role: "user", text: value }]);
     setInput("");
-    setPending(true);
-    if (timer.current) clearTimeout(timer.current);
-    timer.current = setTimeout(() => {
-      setPending(false);
-      setMessages((m) => [
-        ...m,
-        {
-          id: crypto.randomUUID(),
-          role: "assistant",
-          text: "The assistant isn't connected yet, so I can't answer this question. Once the CyberCortex service is connected, answers will appear here.",
-        },
-      ]);
-    }, 1200);
+    setMessages((m) => [
+      ...m,
+      {
+        id: crypto.randomUUID(),
+        role: "assistant",
+        text: "The assistant isn't connected yet, so I can't answer this question. Once the CyberCortex service is connected, answers will appear here.",
+      },
+    ]);
   };
 
   const copy = async (msg: Msg) => {

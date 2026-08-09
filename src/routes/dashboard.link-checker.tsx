@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Link2, Loader2, ShieldCheck } from "lucide-react";
 import { PageHeading } from "@/components/dashboard/DashboardShell";
@@ -34,14 +34,8 @@ export const Route = createFileRoute("/dashboard/link-checker")({
 function LinkChecker() {
   const [url, setUrl] = useState("");
   const [state, setState] = useState<ToolState>("empty");
-  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => () => { if (timer.current) clearTimeout(timer.current); }, []);
-
   const analyze = () => {
-    setState("loading");
-    if (timer.current) clearTimeout(timer.current);
-    timer.current = setTimeout(() => setState("error"), 1400);
+    setState("error");
   };
 
   return (
